@@ -31,7 +31,7 @@ const findNoteById = async (id: number) => {
   });
 };
 
-//servico para deletar uma nota pelo id:
+//service para deletar uma nota pelo id:
 
 const deleteNote = async (id: number) => {
   return await prisma.note.delete({
@@ -41,4 +41,17 @@ const deleteNote = async (id: number) => {
   });
 };
 
-export default { createNote, listNotes, findNoteById, deleteNote };
+//service para editar uma nota pelo id:
+const updateNote = async (id: number, data: Note) => {
+  return await prisma.note.update({
+    where: {
+      id,
+    },
+    data: {
+      ...data,
+      createdAt: new Date(),
+    },
+  });
+};
+
+export default { createNote, listNotes, findNoteById, deleteNote, updateNote };

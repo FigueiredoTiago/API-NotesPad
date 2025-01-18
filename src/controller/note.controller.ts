@@ -80,7 +80,7 @@ export const deleteNote = async (
   }
 
   try {
-    const checkNote = prisma.note.findUnique({
+    const checkNote = await prisma.note.findUnique({
       where: {
         id: Number(id),
       },
@@ -95,5 +95,42 @@ export const deleteNote = async (
     res.status(200).json("Nota deletada com sucesso!");
   } catch (error) {
     res.status(500).send({ message: "Erro ao deletar a Nota!" });
+  }
+};
+
+//controller para editar uma Nota pelo ID:
+
+export const updateNote = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { id } = req.params;
+  const data = req.body;
+
+  if (!id || isNaN(Number(id))) {
+    res.status(400).json({ error: "ID inválido!" });
+    return;
+  }
+
+  if (!data.title && !data.text) {
+    res.status(400).json({ error: "Preencha pelo menos um Campo..." });
+    return;
+  }
+
+  try {
+    const checkNote = await prisma.note.findUnique({
+      where: { id: Number(id) },
+    });
+
+    if (!checkNote) {
+      res.status(404).json({ message: "Nota não encontrada!" });
+      return;
+    }
+
+    const updatedNote = await noteService.updateNote(Number(id), data);
+
+    res.status(200).json(updatedNote);
+  } catch (error) {
+    res.status(500).send({ message: "Erro ao editar a Nota!" });
   }
 };
