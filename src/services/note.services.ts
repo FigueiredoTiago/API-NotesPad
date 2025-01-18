@@ -16,10 +16,20 @@ const createNote = async (data: Note) => {
   });
 };
 
-//servico para listar todas as Notas:
-
+//service para listar todas as Notas:
 const listNotes = async () => {
   return await prisma.note.findMany();
 };
 
-export default { createNote, listNotes };
+
+//service para listar uma Nota pelo ID:
+
+const findNoteById = async (id: number) => {
+  return await prisma.note.findUnique({
+    where: {
+      id,
+    },
+  });
+};
+
+export default { createNote, listNotes, findNoteById };
