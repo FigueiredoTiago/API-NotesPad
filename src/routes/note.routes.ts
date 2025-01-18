@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { createNote, listNotes, findNoteById } from "../controller/note.controller";
+import { createNote, listNotes, findNoteById, deleteNote } from "../controller/note.controller";
 
 const router = Router();
 
@@ -15,4 +15,9 @@ router.get("/list", listNotes);
 //rota para listar uma Nota pelo ID:
 
 router.get("/findnote/:id", findNoteById);
+
+//rota para deletar uma Nota pelo ID:
+router.delete("/deletenote/:id", deleteNote);
+
+
 export default router;

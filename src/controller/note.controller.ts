@@ -65,3 +65,35 @@ export const findNoteById = async (
     res.status(500).send({ message: "Erro ao buscar a Nota!" });
   }
 };
+
+//controller para deletar uma Nota pelo ID:
+
+export const deleteNote = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { id } = req.params;
+
+  if (!id || isNaN(Number(id))) {
+    res.status(400).json({ error: "ID inválido!" });
+    return;
+  }
+
+  try {
+    const checkNote = prisma.note.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    if (!checkNote) {
+      res.status(404).json({ message: "Nota não encontrada!" });
+      return;
+    }
+
+    await noteService.deleteNote(Number(id));
+    res.status(200).json("Nota deletada com sucesso!");
+  } catch (error) {
+    res.status(500).send({ message: "Erro ao deletar a Nota!" });
+  }
+};
