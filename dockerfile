@@ -1,20 +1,28 @@
-# Etapa base: usar a imagem oficial do Node.js
-FROM node:latest
+# Use uma imagem base do Node.js
+FROM node:18-alpine
 
-# Definir o diretório de trabalho no container
-WORKDIR /api
+# Defina o diretório de trabalho no contêiner
+WORKDIR /app
 
-# Copiar os arquivos
-COPY . .
+# Copie os arquivos de configuração do projeto
+COPY package*.json ./
+COPY tsconfig.json ./
+COPY prisma ./prisma/
 
-#apaga a pasta node_modules
-RUN rm -rf node_modules
+# Instale as dependências
+RUN npm install
 
-#instala as dependencias
-RUN npm install 
+# Gere o Prisma Client
+RUN npx prisma generate
 
+# Copie o código fonte
+COPY src ./src
 
-# Rodar o Nodemon com ts-node para executar TypeScript diretamente
-CMD ["npm", "start"]
+# Compile o TypeScript para JavaScript
+RUN npm run build
 
+# Exponha a porta que sua API usa
 EXPOSE 3000
+
+# Comando para iniciar a aplicação
+CMD ["node", "dist/index.js"]
