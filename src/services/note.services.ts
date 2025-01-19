@@ -18,7 +18,11 @@ const createNote = async (data: Note) => {
 
 //service para listar todas as Notas:
 const listNotes = async () => {
-  return await prisma.note.findMany();
+  return await prisma.note.findMany({
+    orderBy: {
+      createdAt: "desc", // Ordena pela data de criação em ordem decrescente
+    },
+  });
 };
 
 //service para listar uma Nota pelo ID:
