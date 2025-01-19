@@ -36,6 +36,7 @@ export const listNotes = async (req: Request, res: Response): Promise<void> => {
     res.status(200).json({ data: notes });
   } catch (error) {
     res.status(500).send({ message: "Erro ao listar as Notas!" });
+    console.log(error);
   }
 };
 
