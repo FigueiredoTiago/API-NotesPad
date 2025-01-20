@@ -24,7 +24,13 @@ export const createUser = async (
   try {
     await service.createUser({ ...data, password: cryptPassword });
     res.status(201).send("Usuário criado com sucesso!");
-  } catch (error) {
-    res.status(500).send("Erro ao criar o usuário.");
+  } catch (error: any) {
+    if (error.code === "P2002") {
+      // Erro de constraint única (nickname já existe)
+      res.status(400).send(`Esse ${error.meta.target} Escolhido já está em uso.`);
+    } else {
+      // Erro genérico
+      res.status(500).send("Erro ao criar o usuário.");
+    }
   }
 };
