@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import service from "../services/user.service";
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 //utilitario para Criptografar a senha
-import { hashPassword } from "../utils/passwordCrypt";
+import { hashPassword, verifyPassword } from "../utils/passwordCrypt";
 
 //controller para criar um usuario:
 export const createUser = async (
@@ -27,10 +29,50 @@ export const createUser = async (
   } catch (error: any) {
     if (error.code === "P2002") {
       // Erro de constraint única (nickname já existe)
-      res.status(400).send(`Esse ${error.meta.target} Escolhido já está em uso.`);
+      res
+        .status(400)
+        .send(`Esse ${error.meta.target} Escolhido já está em uso.`);
     } else {
       // Erro genérico
       res.status(500).send("Erro ao criar o usuário.");
     }
+  }
+};
+
+//controller para login de usuario:
+
+export const loginUser = async (req: Request, res: Response): Promise<void> => {
+  const data = req.body;
+
+  //verificar se os campos foram preenchidos
+  if (!data.nick || !data.password) {
+    res.status(400).send("Preencha todos os Campos Nick e Senha.");
+    return;
+  }
+
+  try {
+    //buscar o usuario no banco
+    const user = await service.loginUser(data);
+
+    //verificar se o usuario existe
+    if (!user) {
+      res.status(404).send("Usuário não encontrado.");
+      return;
+    }
+
+    //verificar se a senha está correta
+    const isPasswordCorrect = await verifyPassword(
+      data.password,
+      user.password
+    );
+
+    if (!isPasswordCorrect) {
+      res.status(401).send("Senha Incorreta.");
+      return;
+    }
+
+    res.status(200).send("Login feito com sucesso!");
+  } catch (error: any) {
+    res.status(500).send("Erro ao fazer login.");
   }
 };

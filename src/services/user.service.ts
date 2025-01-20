@@ -14,5 +14,14 @@ const createUser = async (data: User) => {
   });
 };
 
+//service para login de usuario
 
-export default { createUser };
+const loginUser = async (data: User) => {
+  return await prisma.user.findUnique({
+    where: {
+      nick: data.nick,
+    },
+  });
+};
+
+export default { createUser, loginUser };

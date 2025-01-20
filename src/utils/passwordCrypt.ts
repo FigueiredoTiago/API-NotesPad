@@ -12,3 +12,11 @@ export async function hashPassword(password: string): Promise<string> {
     throw new Error("Erro ao criptografar a senha.");
   }
 }
+
+// Função para verificar se a senha fornecida corresponde ao hash do usuario cadastrado
+export async function verifyPassword(
+  password: string,
+  hash: string
+): Promise<boolean> {
+  return await bcrypt.compare(password, hash);
+}
