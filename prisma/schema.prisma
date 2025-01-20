@@ -13,3 +13,10 @@ model Note {
   text      String
   createdAt DateTime @default(now())
 }
+
+
+model User {
+  id        Int      @id @default(autoincrement())
+  nick     String   @unique
+  password  String
+}
