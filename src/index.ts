@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import noteRoutes from "./routes/note.routes";
+import userRoutes from "./routes/user.routes";
 
 import cors from "cors";
 
@@ -13,6 +14,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use("/note", noteRoutes);
+app.use("/user", userRoutes);
 
 const port = 3000; //para dev para prod usar a 3000
 
