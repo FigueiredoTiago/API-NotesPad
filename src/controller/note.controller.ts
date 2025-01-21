@@ -3,6 +3,10 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
+interface AuthRequest extends Request {
+  userId?: string; // Adiciona o campo userId ao objeto Request/, usar em rotas autenticadas
+}
+
 //controller para criar uma nova Nota:
 export const createNote = async (
   req: Request,
@@ -30,7 +34,13 @@ export const createNote = async (
 
 //controller para listar todas as Notas:
 
-export const listNotes = async (req: Request, res: Response): Promise<void> => {
+export const listNotes = async (
+  req: AuthRequest,
+  res: Response
+): Promise<void> => {
+  
+  const userId = req.userId; //pegar o id do usuário autenticado
+
   try {
     const notes = await noteService.listNotes();
     res.status(200).json({ data: notes });

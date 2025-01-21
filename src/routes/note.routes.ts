@@ -8,6 +8,8 @@ import {
   updateNote,
 } from "../controller/note.controller";
 
+import { authMiddleware } from "../middlewares/authMiddleware";
+
 const router = Router();
 
 //rota para criar uma nova Nota:
@@ -15,7 +17,7 @@ const router = Router();
 router.post("/create", createNote);
 
 //rota para listar todas as Notas:
-router.get("/list", listNotes);
+router.get("/list", /*authMiddleware,*/ listNotes);
 
 //rota para listar uma Nota pelo ID:
 
