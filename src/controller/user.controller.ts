@@ -71,7 +71,15 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    res.status(200).send("Login feito com sucesso!");
+    const id = user.id;
+
+    //gerar o token de autenticação
+
+    const token = service.generateToken(id);
+
+    //retornar o token e o nick do usuario
+    res.status(200).send({ token, nick: user.nick });
+
   } catch (error: any) {
     res.status(500).send("Erro ao fazer login.");
   }

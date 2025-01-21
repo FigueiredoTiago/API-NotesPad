@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
+import jwt from "jsonwebtoken";
 
 //type para user
 
@@ -24,4 +25,11 @@ const loginUser = async (data: User) => {
   });
 };
 
-export default { createUser, loginUser };
+//service para gerar token jwt com id do usuario
+export const generateToken = (id: number) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET as string, {
+    expiresIn: "1d",
+  });
+};
+
+export default { createUser, loginUser, generateToken };
