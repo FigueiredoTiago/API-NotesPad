@@ -4,25 +4,36 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 interface AuthRequest extends Request {
-  userId?: string; // Adiciona o campo userId ao objeto Request/, usar em rotas autenticadas
+  userId?: number; // Adiciona o campo userId ao objeto Request/, usar em rotas autenticadas
 }
 
 //controller para criar uma nova Nota:
 export const createNote = async (
-  req: Request,
+  req: AuthRequest,
   res: Response
 ): Promise<void> => {
   const { title, text } = req.body;
 
-  const data = {
-    title,
-    text,
-  };
+  //pegando o id do usuário autenticado
+  const userId = req.userId;
+
+  //validação dos campos
+
+  if (!userId) {
+    res.status(401).json({ message: "Usuário não autenticado!" });
+    return;
+  }
 
   if (!title || !text) {
     res.status(400).send({ message: "Preencha todos os campos!" });
     return;
   }
+
+  const data = {
+    title,
+    text,
+    userId,
+  };
 
   try {
     const newNote = await noteService.createNote(data);
@@ -38,11 +49,15 @@ export const listNotes = async (
   req: AuthRequest,
   res: Response
 ): Promise<void> => {
-  
   const userId = req.userId; //pegar o id do usuário autenticado
+  //validação do id do usuário
 
+  if (!userId) {
+    res.status(401).json({ message: "Usuário não autenticado!" });
+    return;
+  }
   try {
-    const notes = await noteService.listNotes();
+    const notes = await noteService.listNotes(userId);
     res.status(200).json({ data: notes });
   } catch (error) {
     res.status(500).send({ message: "Erro ao listar as Notas!" });

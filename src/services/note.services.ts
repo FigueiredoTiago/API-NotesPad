@@ -7,18 +7,28 @@ const prisma = new PrismaClient();
 type Note = {
   title: string;
   text: string;
+  userId: number;
 };
 
-//service para criar uma nova Nota:
+//service para criar uma nova Nota ja com o id do usuário autenticado:
 const createNote = async (data: Note) => {
   return await prisma.note.create({
-    data,
+    data: {
+      title: data.title,
+      text: data.text,
+      user: {
+        connect: { id: data.userId },
+      },
+    },
   });
 };
 
-//service para listar todas as Notas:
-const listNotes = async () => {
+// Service para listar notas de um usuário específico
+const listNotes = async (userId: number) => {
   return await prisma.note.findMany({
+    where: {
+      user_id: userId, // Filtra as notas pelo ID do usuário
+    },
     orderBy: {
       createdAt: "desc", // Ordena pela data de criação em ordem decrescente
     },

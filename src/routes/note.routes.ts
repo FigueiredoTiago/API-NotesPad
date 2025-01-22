@@ -14,10 +14,10 @@ const router = Router();
 
 //rota para criar uma nova Nota:
 
-router.post("/create", createNote);
+router.post("/create", authMiddleware, createNote);
 
 //rota para listar todas as Notas:
-router.get("/list", /*authMiddleware,*/ listNotes);
+router.get("/list", authMiddleware, listNotes);
 
 //rota para listar uma Nota pelo ID:
 

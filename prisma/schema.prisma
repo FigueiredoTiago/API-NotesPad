@@ -11,12 +11,18 @@ model Note {
   id        Int      @id @default(autoincrement())
   title     String
   text      String
+  user_id   Int
   createdAt DateTime @default(now())
+
+  // Relacionamento com User
+  user User @relation(fields: [user_id], references: [id])
 }
 
-
 model User {
-  id        Int      @id @default(autoincrement())
-  nick     String   @unique
-  password  String
+  id       Int    @id @default(autoincrement())
+  nick     String @unique
+  password String
+
+  // Relacionamento com Note
+  notes Note[]
 }

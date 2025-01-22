@@ -40,6 +40,10 @@ export const authMiddleware = async (
     req.userId = decoded.id;
 
     next();
-  } catch (error) {}
+  } catch (err) {
+    res
+      .status(401)
+      .send({ message: "Token inválido ou expirado.", error: err });
+    return;
+  }
 };
-
