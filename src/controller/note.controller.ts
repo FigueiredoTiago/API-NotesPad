@@ -113,10 +113,16 @@ export const deleteNote = async (
     return;
   }
 
+  if (!userId) {
+    res.status(401).json({ message: "Usuário não autenticado!" });
+    return;
+  }
+
   try {
     const checkNote = await prisma.note.findUnique({
       where: {
         id: Number(id),
+        user_id: userId,
       },
     });
 
