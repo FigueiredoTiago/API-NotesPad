@@ -21,7 +21,7 @@ router.get("/list", authMiddleware, listNotes);
 
 //rota para listar uma Nota pelo ID:
 
-router.get("/findnote/:id", findNoteById);
+router.get("/findnote/:id", authMiddleware, findNoteById);
 
 //rota para deletar uma Nota pelo ID:
 router.delete("/deletenote/:id", authMiddleware, deleteNote);

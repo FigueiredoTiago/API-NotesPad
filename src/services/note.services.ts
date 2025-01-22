@@ -37,10 +37,11 @@ const listNotes = async (userId: number) => {
 
 //service para listar uma Nota pelo ID:
 
-const findNoteById = async (id: number) => {
+const findNoteById = async (id: number, userId: number) => {
   return await prisma.note.findUnique({
     where: {
-      id,
+      id, // ID da nota
+      user_id: userId, // ID do usuário autenticado
     },
   });
 };

@@ -67,18 +67,25 @@ export const listNotes = async (
 //controller para listar uma Nota pelo ID:
 
 export const findNoteById = async (
-  req: Request,
+  req: AuthRequest,
   res: Response
 ): Promise<void> => {
   const { id } = req.params;
+
+  const userId = req.userId; //pegar o id do usuário autenticado
 
   if (!id || isNaN(Number(id))) {
     res.status(400).json({ error: "ID inválido!" });
     return;
   }
 
+  if (!userId) {
+    res.status(401).json({ message: "Usuário não autenticado!" });
+    return;
+  }
+
   try {
-    const note = await noteService.findNoteById(Number(id));
+    const note = await noteService.findNoteById(Number(id), Number(userId));
 
     if (!note) {
       res.status(404).json({ message: "Nota não encontrada!" });
@@ -168,7 +175,6 @@ export const updateNote = async (
     );
 
     res.status(200).json(updatedNote);
-    
   } catch (error) {
     res.status(500).send({ message: "Erro ao editar a Nota!" });
   }
