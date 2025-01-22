@@ -46,7 +46,6 @@ const findNoteById = async (id: number) => {
 };
 
 //service para deletar uma nota pelo id:
-
 const deleteNote = async (id: number, userId: number) => {
   return await prisma.note.deleteMany({
     where: {
@@ -55,15 +54,17 @@ const deleteNote = async (id: number, userId: number) => {
     },
   });
 };
+
 //service para editar uma nota pelo id:
-const updateNote = async (id: number, data: Note) => {
+const updateNote = async (id: number, data: Note, userId: number) => {
   return await prisma.note.update({
     where: {
       id,
+      user_id: userId, // Verifica se o usuário é o proprietário da nota
     },
     data: {
       ...data,
-      createdAt: new Date(),
+      createdAt: new Date(), // Atualiza a data de criação (ou você pode remover isso se não quiser mudar)
     },
   });
 };

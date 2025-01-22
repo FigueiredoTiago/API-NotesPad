@@ -129,14 +129,20 @@ export const deleteNote = async (
 //controller para editar uma Nota pelo ID:
 
 export const updateNote = async (
-  req: Request,
+  req: AuthRequest,
   res: Response
 ): Promise<void> => {
   const { id } = req.params;
+  const userId = req.userId; //pegar o id do usuário autenticado
   const data = req.body;
 
   if (!id || isNaN(Number(id))) {
     res.status(400).json({ error: "ID inválido!" });
+    return;
+  }
+
+  if (!userId) {
+    res.status(401).json({ message: "Usuário não autenticado!" });
     return;
   }
 
@@ -147,7 +153,7 @@ export const updateNote = async (
 
   try {
     const checkNote = await prisma.note.findUnique({
-      where: { id: Number(id) },
+      where: { id: Number(id), user_id: userId },
     });
 
     if (!checkNote) {
@@ -155,9 +161,14 @@ export const updateNote = async (
       return;
     }
 
-    const updatedNote = await noteService.updateNote(Number(id), data);
+    const updatedNote = await noteService.updateNote(
+      Number(id),
+      data,
+      Number(userId)
+    );
 
     res.status(200).json(updatedNote);
+    
   } catch (error) {
     res.status(500).send({ message: "Erro ao editar a Nota!" });
   }
