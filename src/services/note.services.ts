@@ -47,14 +47,14 @@ const findNoteById = async (id: number) => {
 
 //service para deletar uma nota pelo id:
 
-const deleteNote = async (id: number) => {
-  return await prisma.note.delete({
+const deleteNote = async (id: number, userId: number) => {
+  return await prisma.note.deleteMany({
     where: {
       id,
+      user_id: userId, // Garantir que a nota pertence ao usuário autenticado
     },
   });
 };
-
 //service para editar uma nota pelo id:
 const updateNote = async (id: number, data: Note) => {
   return await prisma.note.update({
