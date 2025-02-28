@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main # ou a branch que você usa para deploy
+  pull_request:
+    branches:
+      - main # ou a branch que você usa para deploy
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U test"
+          --health-timeout=30s
+          --health-interval=5s
+          --health-retries=3
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "22.11.0" 
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Load environment variables from .env
+        run: |
+          echo "DATABASE_URL=postgresql://test:test@localhost:5432/testdb?schema=public" >> $GITHUB_ENV
+          # Ou use um arquivo env.test com dotenv:
+          # cat .env.test >> $GITHUB_ENV
+
+      - name: Set up Prisma
+        run: |
+          npx prisma migrate deploy  # Aplica as migrações no banco de dados de teste
+          npx prisma generate  # Gera o cliente Prisma
+
+      - name: Run tests
+        run: npm test # Roda seus testes com Jest
