@@ -11,7 +11,11 @@ beforeAll(async () => {
 
 afterAll(async () => {
   // Fecha o servidor após todos os testes
-  await server.close();
+  await new Promise<void>((resolve) => {
+    server.close(() => {
+      resolve();
+    });
+  });
 });
 
 describe("POST /user/create", () => {
