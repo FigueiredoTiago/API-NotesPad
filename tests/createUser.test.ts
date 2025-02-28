@@ -6,7 +6,7 @@ let server: any;
 
 beforeAll(async () => {
   // Inicializa o servidor antes de todos os testes
-  server = app.listen(9000); // Use a porta que você deseja
+  server = app.listen(3000); // Use a porta que você deseja
 });
 
 afterAll(async () => {
