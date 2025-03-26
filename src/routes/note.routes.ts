@@ -29,4 +29,3 @@ router.delete("/deletenote/:id", authMiddleware, deleteNote);
 router.patch("/updatenote/:id", authMiddleware, updateNote);
 
 export default router;
- 
