@@ -3,10 +3,10 @@ name: CI
 on:
   push:
     branches:
-      - main # ou a branch que você usa para deploy
+      - main
   pull_request:
     branches:
-      - main # ou a branch que você usa para deploy
+      - main
 
 jobs:
   build:
@@ -34,21 +34,27 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "22.11.0" 
+          node-version: "22.11.0"
 
       - name: Install dependencies
         run: npm install
 
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          until pg_isready -h localhost -p 5432 -U test; do
+            echo "Waiting for PostgreSQL to be ready..."
+            sleep 2
+          done
+
       - name: Load environment variables from .env
         run: |
           echo "DATABASE_URL=postgresql://test:test@localhost:5432/testdb?schema=public" >> $GITHUB_ENV
-          # Ou use um arquivo env.test com dotenv:
-          # cat .env.test >> $GITHUB_ENV
 
       - name: Set up Prisma
         run: |
-          npx prisma migrate deploy  # Aplica as migrações no banco de dados de teste
-          npx prisma generate  # Gera o cliente Prisma
+          npx prisma migrate deploy
+          npx prisma generate
+          npx prisma migrate status # Verifica se as migrações foram aplicadas corretamente
 
       - name: Run tests
-        run: npm test # Roda seus testes com Jest
+        run: npm test
