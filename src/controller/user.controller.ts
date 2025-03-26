@@ -79,7 +79,6 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 
     //retornar o token e o nick do usuario
     res.status(200).send({ token, nick: user.nick });
-
   } catch (error: any) {
     res.status(500).send("Erro ao fazer login.");
   }

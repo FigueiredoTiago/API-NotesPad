@@ -36,13 +36,19 @@ describe("POST /user/create", () => {
       password: "senha123",
     };
 
-    const response = await request("http://localhost:3000")
-      .post("/user/login")
-      .send(userData);
+    try {
+      const response = await request("http://localhost:3000")
+        .post("/user/login")
+        .send(userData);
 
-    expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty("nick");
-    expect(response.body).toHaveProperty("token");
+      expect(response.status).toBe(200);
+
+      expect(response.body).toHaveProperty("nick");
+      expect(response.body).toHaveProperty("token");
+    } catch (error) {
+      console.error("Erro no teste de login:", error);
+      throw error;
+    }
   });
 
   it("Deve retornar status 400 se campos obrigatórios não forem preenchidos", async () => {
