@@ -117,4 +117,39 @@ describe("Testes de Notas", () => {
     expect(response.body.title).toBe(note.title);
     expect(response.body.text).toBe(note.text);
   });
+
+  it("Deve Retornar Status 404 se o ID da Nota a ser Apagada Estiver faltando", async () => {
+    const response = await request("http://localhost:3000")
+      .delete("/note/deletenote/")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+  });
+
+  it("Deve Retornar Status 400 se o ID da Nota a ser Apagada não for um Número", async () => {
+    const response = await request("http://localhost:3000")
+      .delete("/note/deletenote/abc")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body.error).toBe("ID inválido!");
+  });
+
+  it("Deve Retornar Status 404 se a Nota a ser apagada não for encontrada ", async () => {
+    const response = await request("http://localhost:3000")
+      .delete("/note/deletenote/454")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(404);
+    expect(response.body.message).toBe("Nota não encontrada!");
+  });
+
+  it("Deve Apagar a Nota e retornar Status 200", async () => {
+    const response = await request("http://localhost:3000")
+      .delete(`/note/deletenote/${noteId}`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.message).toBe("Nota deletada com sucesso!");
+  });
 });

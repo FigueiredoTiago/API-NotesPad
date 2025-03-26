@@ -108,7 +108,12 @@ export const deleteNote = async (
 
   const userId = req.userId; //pegar o id do usuário autenticado
 
-  if (!id || isNaN(Number(id))) {
+  if (!id) {
+    res.status(404).json({ error: "ID Não Fornecido!" });
+    return;
+  }
+
+  if (isNaN(Number(id))) {
     res.status(400).json({ error: "ID inválido!" });
     return;
   }
@@ -133,7 +138,7 @@ export const deleteNote = async (
 
     await noteService.deleteNote(Number(id), Number(userId));
 
-    res.status(200).json("Nota deletada com sucesso!");
+    res.status(200).json({ message: "Nota deletada com sucesso!" });
   } catch (error) {
     res.status(500).send({ message: "Erro ao deletar a Nota!" });
   }
