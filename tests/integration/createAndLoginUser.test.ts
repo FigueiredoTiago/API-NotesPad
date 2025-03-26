@@ -1,7 +1,7 @@
 // tests/createUser.test.ts
 import request from "supertest";
 
-describe("POST /user/create", () => {
+describe("Testes de Registro e Login", () => {
   it("Deve retornar status 400 se campos obrigatórios não forem preenchidos", async () => {
     const userData = {
       nick: "", // Falta o nick

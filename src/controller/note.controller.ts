@@ -149,7 +149,12 @@ export const updateNote = async (
   const userId = req.userId; //pegar o id do usuário autenticado
   const data = req.body;
 
-  if (!id || isNaN(Number(id))) {
+  if (!id) {
+    res.status(404).json({ error: "ID Não Fornecido!" });
+    return;
+  }
+
+  if (isNaN(Number(id))) {
     res.status(400).json({ error: "ID inválido!" });
     return;
   }

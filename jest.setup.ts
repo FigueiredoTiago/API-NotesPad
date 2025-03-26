@@ -9,8 +9,8 @@ beforeAll(async () => {
   server = app.listen(3000);
 
   //preparação necessária no banco de dados
-  await prisma.user.deleteMany({});
   await prisma.note.deleteMany({});
+  await prisma.user.deleteMany({});
 });
 
 afterAll(async () => {
@@ -22,8 +22,8 @@ afterAll(async () => {
   });
 
   // Limpar o banco de dados
-  await prisma.user.deleteMany({});
   await prisma.note.deleteMany({});
+  await prisma.user.deleteMany({});
 
   // Desconectar do Prisma
   await prisma.$disconnect();
