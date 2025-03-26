@@ -4,7 +4,9 @@ import swaggerUi from "swagger-ui-express";
 import yaml from "yamljs";
 const port = 3000; // Defina a porta que sua API vai rodar
 
-const swaggerDocument = yaml.load("../swagger.yaml");
+const swaggerDocument = yaml.load(__dirname + '/swagger.yaml');
+
+
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

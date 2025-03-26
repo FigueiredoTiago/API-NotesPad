@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp src/swagger.yaml dist/",
     "test": "jest --detectOpenHandles",
     "dev": "nodemon src/server.ts",
     "start": "node dist/server.js"
