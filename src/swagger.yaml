@@ -3,9 +3,6 @@ info:
   title: NotePad API
   description: API para gerenciamento de notas
   version: 1.0.0
-servers:
-  - url: http://localhost:3000
-    description: Servidor de Desenvolvimento
 
 components:
   securitySchemes:
