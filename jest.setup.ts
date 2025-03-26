@@ -1,15 +1,30 @@
 import { PrismaClient } from "@prisma/client";
+import app from "./src/index";
 
 const prisma = new PrismaClient();
+let server: any;
 
-// Limpar o banco de dados antes de cada teste
-beforeEach(async () => {
-  // Limpar as tabelas 'user' e 'note' (adicione outras tabelas conforme necessário)
-  await prisma.note.deleteMany({});
+beforeAll(async () => {
+  // Inicializar o servidor
+  server = app.listen(3000);
+
+  //preparação necessária no banco de dados
   await prisma.user.deleteMany({});
+  await prisma.note.deleteMany({});
 });
 
-// Fechar a conexão com o Prisma após todos os testes
 afterAll(async () => {
+  // Fechar o servidor após todos os testes
+  await new Promise<void>((resolve) => {
+    server.close(() => {
+      resolve();
+    });
+  });
+
+  // Limpar o banco de dados
+  await prisma.user.deleteMany({});
+  await prisma.note.deleteMany({});
+
+  // Desconectar do Prisma
   await prisma.$disconnect();
 });
