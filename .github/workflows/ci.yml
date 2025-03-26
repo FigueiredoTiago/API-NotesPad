@@ -49,6 +49,7 @@ jobs:
       - name: Load environment variables from .env
         run: |
           echo "DATABASE_URL=postgresql://test:test@localhost:5432/testdb?schema=public" >> $GITHUB_ENV
+          echo "JWT_SECRET=18f0e27bcb06d53dee5c34ebc7366702b36b2d66" >> $GITHUB_ENV
 
       - name: Set up Prisma
         run: |
