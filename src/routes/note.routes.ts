@@ -13,7 +13,6 @@ import { authMiddleware } from "../middlewares/authMiddleware";
 const router = Router();
 
 //rota para criar uma nova Nota:
-
 router.post("/create", authMiddleware, createNote);
 
 //rota para listar todas as Notas:
@@ -27,6 +26,7 @@ router.get("/findnote/:id", authMiddleware, findNoteById);
 router.delete("/deletenote/:id", authMiddleware, deleteNote);
 
 //rota para editar uma Nota pelo ID:
-router.patch("/updatenote/:id",authMiddleware, updateNote);
+router.patch("/updatenote/:id", authMiddleware, updateNote);
 
 export default router;
+ 

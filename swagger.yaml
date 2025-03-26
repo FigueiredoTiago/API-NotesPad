@@ -1,0 +1,46 @@
+openapi: 3.0.0
+info:
+  title: NotePad API
+  description: API para gerenciamento de notas
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+    description: Servidor de Desenvolvimento
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+paths:
+  /note/create:
+    post:
+      summary: Cria uma nova nota
+      security:
+        - bearerAuth: []
+      tags:
+        - Notes
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: "Minha nova nota"
+                text:
+                  type: string
+                  example: "Conteúdo da nota"
+      responses:
+        "201":
+          description: Nota criada com sucesso!
+        "400":
+          description: Preencha todos os campos obrigatórios!
+        "401":
+          description: Usuario não autenticado!
+        "500":
+          description: Erro Ao criar nota!
