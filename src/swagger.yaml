@@ -145,32 +145,29 @@ paths:
           description: Nota não encontrada!
         "500":
           description: Erro ao deletar nota!
-
   /user/create:
     post:
       summary: Cria um novo usuário.
       tags:
         - User
       requestBody:
-      required: true
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              nick:
-                type: string
-                example: "nick de usuario"
-              password:
-                type: string
-                example: "Senha do usuario"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nick:
+                  type: string
+                  example: "nick de usuário"
+                password:
+                  type: string
+                  example: "Senha do usuário"
       responses:
         "201":
           description: Usuário criado com sucesso!
         "400":
-          description: Preencha todos os Campos Nick e Senha.
-        "400":
-          description: Nick Escolhido já está em uso.
+          description: Preencha todos os campos Nick e Senha ou Nick já está em uso.
         "500":
           description: Erro ao criar usuário!
 
@@ -188,20 +185,18 @@ paths:
               properties:
                 nick:
                   type: string
-                  example: "nick de usuario"
+                  example: "nick de usuário"
                 password:
                   type: string
-                  example: "Senha do usuario"
+                  example: "Senha do usuário"
       responses:
         "200":
           description: Retorna o Token de autenticação e Nick do usuário.
         "400":
-          description: Preencha todos os Campos Nick e Senha.
+          description: Preencha todos os campos Nick e Senha.
         "401":
           description: Senha incorreta.
         "404":
           description: Usuário não encontrado.
         "500":
           description: Erro ao realizar login!
-
-        

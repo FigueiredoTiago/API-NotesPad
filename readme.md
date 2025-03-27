@@ -20,6 +20,8 @@ O **NotesPad** é um aplicativo web de bloco de notas completo, desenvolvido com
 - **Banco de Dados:** PostgreSQL
 - **Containerização:** Docker
 - **Auth de Usuarios:** JWT, Bcrypt
+- **Testes Automatizados** Jest, SuperTeste
+- **CI&CD** GitHub Actions
 
 ## 📥 Como Usar
 
