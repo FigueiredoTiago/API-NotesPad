@@ -6,6 +6,7 @@ import {
   findNoteById,
   deleteNote,
   updateNote,
+  searchNote,
 } from "../controller/note.controller";
 
 import { authMiddleware } from "../middlewares/authMiddleware";
@@ -27,5 +28,9 @@ router.delete("/deletenote/:id", authMiddleware, deleteNote);
 
 //rota para editar uma Nota pelo ID:
 router.patch("/updatenote/:id", authMiddleware, updateNote);
+
+//rota para Buscar uma Nota pelo Titulo por Query Params:
+
+router.get("/searchnote", authMiddleware, searchNote);
 
 export default router;

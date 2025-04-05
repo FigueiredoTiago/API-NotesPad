@@ -211,7 +211,7 @@ export const searchNote = async (
   }
 
   if (!title) {
-    res.status(400).json({ message: "Título não fornecido!" });
+    res.status(400).json({ message: "Digite Algo Para Buscar!" });
     return;
   }
 
