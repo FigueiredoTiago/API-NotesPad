@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc && cp src/swagger.yaml dist/",
-    "test": "jest --detectOpenHandles",
+    "test": "jest --detectOpenHandles --verbose --runInBand",
     "dev": "nodemon src/server.ts",
     "start": "node dist/server.js"
   },

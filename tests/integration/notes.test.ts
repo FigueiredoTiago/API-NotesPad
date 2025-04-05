@@ -55,6 +55,24 @@ describe("Testes de Notas", () => {
     expect(response.body).toBeInstanceOf(Object);
   });
 
+  it("Deve Pesquisar Uma Nota pelo titulo e Retornar Status 200", async () => {
+    const response = await request("localhost:3000")
+      .get("/note/searchnote?title=Nota de Teste")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toBeInstanceOf(Object);
+  });
+
+  it("Deve Pesquisar uma Nota Sem digitar o titulo e retornar status 400", async () => {
+    const response = await request("localhost:3000")
+      .get("/note/searchnote?title=")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe("Digite Algo Para Buscar!");
+  });
+
   it("Deve Retornar Status 404 se o ID não for Enviado Para Atualizar a Nota", async () => {
     const response = await request("http://localhost:3000")
       .patch("/note/updatenote/")
