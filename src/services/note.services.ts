@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { title } from "process";
 
 const prisma = new PrismaClient();
 
@@ -66,6 +67,23 @@ const updateNote = async (id: number, data: Note, userId: number) => {
     data: {
       ...data,
       createdAt: new Date(), // Atualiza a data de criação (ou você pode remover isso se não quiser mudar)
+    },
+  });
+};
+
+//service para Buscar uma Nota Pelo Titulo:
+
+const searchNote = async (title: string, userId: number) => {
+  return await prisma.note.findMany({
+    where: {
+      title: {
+        contains: title,
+        mode: "insensitive",
+      },
+      user_id: userId,
+    },
+    orderBy: {
+      createdAt: "desc",
     },
   });
 };
