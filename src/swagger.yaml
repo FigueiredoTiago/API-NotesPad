@@ -145,6 +145,31 @@ paths:
           description: Nota não encontrada!
         "500":
           description: Erro ao deletar nota!
+  /note/searchnote:
+    get:
+      summary: Busca uma nota pelo título
+      security:
+        - bearerAuth: []
+      tags:
+        - Notes
+      parameters:
+        - name: title
+          in: query
+          required: true
+          description: Título da nota
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Retorna a Nota Encontrada pelo Título.
+        "400":
+          description: Digite Algo Para Buscar!
+        "401":
+          description: Usuario não autenticado!
+        "404":
+          description: Nenhuma nota encontrada!
+        "500":
+          description: Erro ao buscar nota!
   /user/create:
     post:
       summary: Cria um novo usuário.
