@@ -195,3 +195,36 @@ export const updateNote = async (
     res.status(500).send({ message: "Erro ao editar a Nota!" });
   }
 };
+
+//controller para Buscar uma Nota pelo Titulo:
+
+export const searchNote = async (
+  req: AuthRequest,
+  res: Response
+): Promise<void> => {
+  const { title } = req.query;
+  const userId = req.userId;
+
+  if (!userId) {
+    res.status(401).json({ message: "Usuário não autenticado!" });
+    return;
+  }
+
+  if (!title) {
+    res.status(400).json({ message: "Título não fornecido!" });
+    return;
+  }
+
+  try {
+    const notes = await noteService.searchNote(String(title), Number(userId));
+
+    if (notes.length === 0) {
+      res.status(404).json({ message: "Nenhuma nota encontrada!" });
+      return;
+    }
+
+    res.status(200).json({ data: notes });
+  } catch (error) {
+    res.status(500).send({ message: "Erro ao buscar a Nota!" });
+  }
+};

@@ -88,4 +88,11 @@ const searchNote = async (title: string, userId: number) => {
   });
 };
 
-export default { createNote, listNotes, findNoteById, deleteNote, updateNote };
+export default {
+  createNote,
+  listNotes,
+  findNoteById,
+  deleteNote,
+  updateNote,
+  searchNote,
+};
