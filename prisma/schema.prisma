@@ -11,6 +11,7 @@ model Note {
   id        Int      @id @default(autoincrement())
   title     String
   text      String
+  favorite  Boolean  @default(false)
   user_id   Int
   createdAt DateTime @default(now())
 
