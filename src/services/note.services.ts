@@ -9,6 +9,7 @@ type Note = {
   title: string;
   text: string;
   userId: number;
+  favorite?: boolean;
 };
 
 //service para criar uma nova Nota ja com o id do usuário autenticado:
@@ -17,6 +18,7 @@ const createNote = async (data: Note) => {
     data: {
       title: data.title,
       text: data.text,
+      favorite: data.favorite ?? undefined,
       user: {
         connect: { id: data.userId },
       },
