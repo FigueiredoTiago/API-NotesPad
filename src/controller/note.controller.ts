@@ -12,7 +12,7 @@ export const createNote = async (
   req: AuthRequest,
   res: Response
 ): Promise<void> => {
-  const { title, text } = req.body;
+  const { title, text, favorite } = req.body;
 
   //pegando o id do usuário autenticado
   const userId = req.userId;
@@ -33,12 +33,14 @@ export const createNote = async (
     title,
     text,
     userId,
+    favorite: favorite ?? undefined,
   };
 
   try {
     const newNote = await noteService.createNote(data);
     res.status(201).json(newNote);
   } catch (error) {
+    console.error(error);
     res.status(500).send({ message: "Erro ao criar a Nota!" });
   }
 };
