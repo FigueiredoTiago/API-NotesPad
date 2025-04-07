@@ -171,8 +171,12 @@ export const updateNote = async (
     return;
   }
 
-  if (!data.title && !data.text) {
-    res.status(400).json({ error: "Preencha pelo menos um Campo..." });
+  if (!data.title && !data.text && typeof data.favorito !== "boolean") {
+    res
+      .status(400)
+      .json({
+        error: "Preencha pelo menos um campo: título, texto ou favorito.",
+      });
     return;
   }
 
