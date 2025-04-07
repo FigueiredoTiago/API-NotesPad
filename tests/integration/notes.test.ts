@@ -117,7 +117,7 @@ describe("Testes de Notas", () => {
       .send(note);
 
     expect(response.status).toBe(400);
-    expect(response.body.error).toBe("Preencha pelo menos um Campo...");
+    expect(response.body.error).toBe("Preencha pelo menos um campo: título, texto ou favorito.");
   });
 
   it("Deve Atualizar a Nota e Retornar Status 200", async () => {

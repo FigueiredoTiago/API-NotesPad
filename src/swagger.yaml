@@ -32,6 +32,9 @@ paths:
                 text:
                   type: string
                   example: "Conteúdo da nota"
+                favorite:
+                  type: boolean
+                  example: true
       responses:
         "201":
           description: Nota criada com sucesso!
@@ -108,6 +111,9 @@ paths:
                 text:
                   type: string
                   example: "Conteúdo da nota Editada"
+                favorite:
+                  type: boolean
+                  example: true
       responses:
         "200":
           description: Retorna a Nota Editada.
