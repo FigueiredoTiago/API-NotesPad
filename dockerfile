@@ -21,7 +21,7 @@ COPY src ./src
 # Compile o TypeScript para JavaScript
 RUN npm run build
 
-# Exponha a porta que sua API usa
+# porta da API 
 EXPOSE 3000
 
 # Comando para iniciar a aplicação
